@@ -1,0 +1,86 @@
+<html>
+<head>
+    <title>Leaflet.Mapisso Buffer Demo</title>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="lib/leaflet/leaflet.css" />	
+    <script src="lib/leaflet/leaflet.js"></script> 
+    <script src="lib/jquery/jquery-1.11.2.min.js"></script>
+    
+    
+    
+    <link rel="stylesheet" href="lib/Leaflet.draw-master/dist/leaflet.draw.css" />
+    <script src="lib/Leaflet.draw-master/dist/leaflet.draw.js"></script>
+   <link rel="stylesheet" href="lib/mapissoBuffer/Leaflet.MapissoBuffer.css" />
+    <script src="lib/mapissoBuffer/Jquery.MapissoAjaxBufferRequest.js" charset="UTF-8"></script>
+    <script src="lib/mapissoBuffer/Leaflet.MapissoBuffer.js" charset="UTF-8"></script>
+    
+    
+    <style type="text/css">
+        body, html {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%; 
+        }
+       
+     </style>
+</head>
+<body>
+    
+			<div id="map"></div>
+
+			<script>
+		
+				            
+				            
+				var key = "165eda2c-1bad-4c87-941d-5acd09230bf4";
+				
+				var map = new L.Map('map').setView([ 39.036252959636606,
+						34.881591796875 ], 5);
+				var tilelayer = L
+						.tileLayer(
+								'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+								{
+									attribution : '<a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+								});
+				map.addLayer(tilelayer);
+
+				var drawnItems = new L.FeatureGroup();
+				map.addLayer(drawnItems);
+				
+				var oldlayer;
+				var drawControl = new L.Control.Draw({
+					draw : {
+						circle : false,
+						//polyline : false,						
+						//marker : false
+					}
+				});
+				
+				map.addControl(drawControl);
+				map.on('draw:created', function(e) {
+					var type = e.layerType, layer = e.layer;
+
+					if (oldlayer != undefined)
+						drawnItems.removeLayer(oldlayer);
+					drawnItems.addLayer(layer);
+					oldlayer = layer;
+
+				});
+				
+	
+
+                   var mBuffer = new L.Control.mapissoBuffer();	
+				   map.addControl(mBuffer);
+				    
+				  
+		
+				
+			</script>
+</body>
+</html>
